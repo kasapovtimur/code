@@ -1,7 +1,8 @@
 # напиши здесь код основного приложения и первого экран
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from my_app import *
+from second_win import *
+from instr import *
 class MainWin(QWidget):
     def __init__(self):
         super().__init__()
@@ -10,16 +11,16 @@ class MainWin(QWidget):
         self.set_appear()
         self.show()
     def initUI(self):
-        self.btn_next = QPushButton('txt_next',self)
-        self.hello_text = QLabel('txt_hello')
-        self.inistruction = QLabel('txt_instruction')
+        self.btn_next = QPushButton('Начать',self)
+        self.hello_text = QLabel(txt_hello)
+        self.inistruction = QLabel(txt_instruction)
         self.layout_line = QVBoxLayout()
         self.layout_line.addWidget(self.hello_text, alignment = Qt.AlignLeft)
         self.layout_line.addWidget(self.inistruction, alignment = Qt.AlignLeft)
         self.layout_line.addWidget(self.btn_next, alignment = Qt.AlignCenter)
         self.setLayout(self.layout_line)
     def next_click(self):
-        self.tw = TestWin()
+        self.tw = TextWin()
         self.hide()
     def connects(self):
         self.btn_next.clicked.connect(self.next_click)
