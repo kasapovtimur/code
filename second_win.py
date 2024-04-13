@@ -1,4 +1,6 @@
 # напиши здесь код для хранения текстовых инструкций для приложения
+from PyQt5.QtCore import Qt, QTimer , QTime , QLocale
+from PyQt5.QtGui import QDoubleValidator,QIntValidator,QFont
 # напиши здесь код основного приложения и первого экран
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
@@ -13,7 +15,21 @@ class TextWin(QWidget):
         self.show()
     def initUI(self):
         self.btn_next = QPushButton('Отправить результаты',self)
-        self.TIME = QLabel('00:00:15')
+        self.text_timer = QLabel(txt_timer)
+        self.text_timer.setFont(QFont("Times",20,QFont.Bold))
+        self.loc = QLocale(QLocale.English,QLocale.UnitedStates)
+        self.validator = QDoubleValidator()
+        self.validator.setLocale(self.loc)
+        self.text_timer = QLabel(txt_timer)
+        self.text_timer.setFont(QFont("Times",20,QFont.Bold))
+        self.loc = QLocale(QLocale.English,QLocale.UnitedStates)
+        self.validator = QDoubleValidator()
+        self.validator.setLocale(self.loc)
+        self.text_timer = QLabel(txt_timer)
+        self.text_timer.setFont(QFont("Times",20,QFont.Bold))
+        self.loc = QLocale(QLocale.English,QLocale.UnitedStates)
+        self.validator = QDoubleValidator()
+        self.validator.setLocale(self.loc)
         self.FIO = QLabel('Введите Ф.И.О.:')
         self.FIOLINE = QLineEdit('Ф.И.О.')
         self.LET = QLabel('Полных лет:')
@@ -28,7 +44,7 @@ class TextWin(QWidget):
         self.FINISH1 = QLineEdit('0')
         self.FINISH2 = QLineEdit('0')
         self.layout_line = QVBoxLayout()
-        self.layout_line.addWidget(self.TIME, alignment = Qt.AlignRight)
+        self.layout_line.addWidget(self.text_timer, alignment = Qt.AlignRight)
         self.layout_line.addWidget(self.FIO, alignment = Qt.AlignLeft)
         self.layout_line.addWidget(self.FIOLINE, alignment = Qt.AlignLeft)
         self.layout_line.addWidget(self.LET, alignment = Qt.AlignLeft)
@@ -44,11 +60,61 @@ class TextWin(QWidget):
         self.layout_line.addWidget(self.FINISH2, alignment = Qt.AlignLeft)
         self.layout_line.addWidget(self.btn_next, alignment = Qt.AlignCenter)
         self.setLayout(self.layout_line)
+    def timer_test1(self):
+        global time
+        time = QTime(0,0,15)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer1Event)
+        self.timer.start(1000)
+    def timer1Event(self):
+        global time
+        time = time.addSecs(-1)
+        self.text_timer.setText(time.toString("hh:mm:ss"))
+        self.text_timer.setFont(QFont("Times", 20, QFont.Bold))
+        self.text_timer.setStyleSheet("color: rgb(0,0,0)")
+        if time.toString("hh:mm:ss") == "00:00:00":
+            self.timer.stop()
+    def timer_test2(self):
+        global time
+        time = QTime(0,0,45)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer2Event)
+        self.timer.start(1000)
+    def timer2Event(self):
+        global time
+        time = time.addSecs(-1)
+        self.text_timer.setText(time.toString("hh:mm:ss"))
+        self.text_timer.setFont(QFont("Times", 20, QFont.Bold))
+        self.text_timer.setStyleSheet("color: rgb(0,0,0)")
+        if time.toString("hh:mm:ss") == "00:00:00":
+            self.timer.stop()
+    def timer_test3(self):
+        global time
+        time = QTime(0,1,0)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer3Event)
+        self.timer.start(1000)
+    def timer3Event(self):
+        global time
+        time = time.addSecs(-1)
+        self.text_timer.setText(time.toString("hh:mm:ss"))
+        if int(time.toString("hh:mm:ss")[6:8]) >=45:
+            self.text_timer.setStyleSheet("color: rgb(9, 219, 65)")
+        elif int(time.toString("hh:mm:ss")[6:8]) <=15:
+            self.text_timer.setStyleSheet("color: rgb(9, 219, 65)")
+        else:
+            self.text_timer.setStyleSheet("color: rgb(0, 0, 0)")
+        self.text_timer.setFont(QFont("Times", 20, QFont.Bold))
+        if time.toString("hh:mm:ss") == "00:00:00":
+            self.timer.stop()
     def next_click(self):
         self.tw = FWin()
         self.hide()
     def connects(self):
         self.btn_next.clicked.connect(self.next_click)
+        self.okoloSPINA.clicked.connect(self.timer_test1)
+        self.okoloPRIS.clicked.connect(self.timer_test2)
+        self.FINISH.clicked.connect(self.timer_test3)
     def set_appear(self):
         win_x,win_y = 200, 100
         win_width,win_height = 1000,600
