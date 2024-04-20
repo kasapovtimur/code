@@ -6,6 +6,13 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from final_win import *
 from instr import *
+class HhghgWin():
+    def __init__(self,FIOLINE,LETLINE,SPINALINE,FINISH1,FINISH2):
+        self.FIOLINE = FIOLINE
+        self.LETLINE = LETLINE
+        self.SPINALINE = SPINALINE
+        self.FINISH1 = FINISH1
+        self.FINISH2 = FINISH2
 class TextWin(QWidget):
     def __init__(self):
         super().__init__()
@@ -34,15 +41,23 @@ class TextWin(QWidget):
         self.FIOLINE = QLineEdit('Ф.И.О.')
         self.LET = QLabel('Полных лет:')
         self.LETLINE = QLineEdit('0')
+        self.LETLINE.setValidator(self.validator)
+        self.LETLINE.setValidator(QIntValidator(7,200))
         self.SPINA = QLabel('Лягте на спину и замерьте пульс за 15 секунд. Нажмите кнопку "Начать первый тест", чтобы запустить таймер.\nРезультат запишите в соответствующее поле.')
         self.okoloSPINA = QPushButton('Начать первый тест')
         self.SPINALINE = QLineEdit('0')
+        self.SPINALINE.setValidator(self.validator)
+        self.SPINALINE.setValidator(QIntValidator (7,200))
         self.PRIS = QLabel('Выполните 30 приседаний за 45 секунд. Для этого нажмите кнопку "Начать делать приседания",\nчтобы запустить счётчик приседаний.')
         self.okoloPRIS = QPushButton('Начать делать приседания')
         self.MNOGO = QLabel('Лягте на спину и замерьте пульс сначала за первые 15 секунд минуты, затем за последние 15 секунд.\nНажмите кнопку "Начать финальный тест", чтобы запустить таймер.\nЗелёным обозначены секунды, в течение которых необходимо \nпроводить измерения, черным - секунды без замера пульсаций. Результаты запишите в соответствующие поля.')
         self.FINISH = QPushButton('Начать финальный тест')
         self.FINISH1 = QLineEdit('0')
+        self.FINISH1.setValidator(self.validator)
+        self.FINISH1.setValidator(QIntValidator (7,200))
         self.FINISH2 = QLineEdit('0')
+        self.FINISH2.setValidator(self.validator)
+        self.FINISH2.setValidator(QIntValidator (7,200))
         self.layout_line = QVBoxLayout()
         self.layout_line.addWidget(self.text_timer, alignment = Qt.AlignRight)
         self.layout_line.addWidget(self.FIO, alignment = Qt.AlignLeft)
@@ -108,7 +123,8 @@ class TextWin(QWidget):
         if time.toString("hh:mm:ss") == "00:00:00":
             self.timer.stop()
     def next_click(self):
-        self.tw = FWin()
+        self.ok=HhghgWin(self.FIOLINE.text,int(self.LETLINE.text()),self.SPINALINE.text,self.FINISH1.text,self.FINISH2.text)
+        self.tw = FWin(self.ok)
         self.hide()
     def connects(self):
         self.btn_next.clicked.connect(self.next_click)
@@ -121,4 +137,4 @@ class TextWin(QWidget):
         self.setWindowTitle('txt_title')
         self.resize(win_width,win_height)
         self.move(win_x,win_y)
-        
+
